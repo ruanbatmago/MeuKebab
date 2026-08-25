@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeuKebab | Sabor que gira a cidade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink:#25221e; --muted:#716b62; --paper:#f7f2e9; --spice:#d9572b; --gold:#e7ad36; --sage:#536b51; --line:rgba(37,34,30,.14); }
+        * { box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { margin:0; color:var(--ink); background:var(--paper); font-family:"DM Sans",sans-serif; }
+        a { color:inherit; text-decoration:none; }
+        .shell { width:min(1120px,calc(100% - 48px)); margin:auto; }
+        header { display:flex; align-items:center; justify-content:space-between; padding:25px 0; }
+        .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.04em; font-size:1.2rem; }
+        .brand-mark { display:grid; place-items:center; width:34px; height:34px; color:#fff; background:var(--spice); border-radius:50%; }
+        nav { display:flex; gap:30px; color:var(--muted); font-size:.88rem; font-weight:600; }
+        nav a:hover { color:var(--spice); }
+        .cart { display:flex; align-items:center; gap:9px; border:1px solid var(--line); border-radius:30px; padding:9px 14px; font-weight:700; font-size:.84rem; }
+        .cart-count { display:grid; place-items:center; width:20px; height:20px; color:#fff; background:var(--spice); border-radius:50%; font-size:.7rem; }
+        .hero { display:grid; grid-template-columns:1fr 1.05fr; gap:62px; align-items:center; min-height:560px; padding:50px 0 82px; }
+        .eyebrow { display:flex; align-items:center; gap:9px; color:var(--spice); font-size:.74rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .eyebrow::before { content:""; width:28px; height:2px; background:var(--gold); }
+        h1,h2 { margin:0; font-family:Fraunces,serif; letter-spacing:-.055em; line-height:.96; }
+        h1 { max-width:510px; margin:22px 0; font-size:clamp(3.4rem,7vw,6.5rem); }
+        h1 em { color:var(--spice); font-style:normal; }
+        .hero-copy { max-width:430px; color:var(--muted); font-size:1.05rem; line-height:1.7; }
+        .actions { display:flex; align-items:center; gap:24px; margin-top:30px; }
+        .button { border:0; border-radius:30px; padding:14px 21px; color:#fff; background:var(--ink); cursor:pointer; font:700 .88rem "DM Sans",sans-serif; }
+        .button:hover { background:var(--spice); }
+        .text-link { border-bottom:1px solid var(--ink); padding-bottom:3px; font-weight:700; font-size:.88rem; }
+        .hero-image { position:relative; min-height:440px; border-radius:160px 160px 18px 18px; background:linear-gradient(150deg,rgba(0,0,0,0),rgba(37,34,30,.28)),url("https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=1000&q=85") center/cover; }
+        .image-note { position:absolute; left:-25px; bottom:28px; max-width:180px; padding:15px 18px; color:#fff; background:var(--sage); font-size:.82rem; line-height:1.45; }
+        .image-note strong { display:block; color:var(--gold); font:700 1.35rem Fraunces,serif; }
+        .menu-section { padding:72px 0 95px; border-top:1px solid var(--line); }
+        .section-heading { display:flex; align-items:end; justify-content:space-between; gap:30px; margin-bottom:34px; }
+        h2 { font-size:clamp(2.5rem,5vw,4.3rem); }
+        .section-heading p { max-width:275px; margin:0; color:var(--muted); font-size:.9rem; line-height:1.6; }
+        .menu-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; }
+        .menu-card { display:flex; flex-direction:column; min-height:270px; padding:21px; border:1px solid var(--line); background:rgba(255,255,255,.25); }
+        .menu-card:hover { border-color:var(--spice); transform:translateY(-4px); transition:transform .2s ease; }
+        .tag { color:var(--spice); font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+        .menu-card h3 { margin:34px 0 9px; font:700 1.25rem Fraunces,serif; }
+        .menu-card p { margin:0; color:var(--muted); font-size:.8rem; line-height:1.5; }
+        .card-bottom { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:20px; }
+        .price { font-weight:700; }
+        .add { display:grid; place-items:center; width:32px; height:32px; border:0; border-radius:50%; color:#fff; background:var(--spice); cursor:pointer; font-size:1.15rem; }
+        .add:hover { background:var(--ink); }
+        footer { padding:28px 0; color:#fff; background:var(--ink); font-size:.82rem; }
+        footer .shell { display:flex; justify-content:space-between; gap:20px; }
+        footer p { margin:0; }
+        .toast { position:fixed; right:22px; bottom:22px; z-index:2; padding:14px 18px; color:#fff; background:var(--sage); box-shadow:0 10px 30px rgba(0,0,0,.18); opacity:0; transform:translateY(10px); transition:.25s ease; pointer-events:none; }
+        .toast.show { opacity:1; transform:translateY(0); }
+        @media (max-width:760px) {
+            .shell { width:min(100% - 32px,540px); }
+            nav { display:none; }
+            .hero { grid-template-columns:1fr; gap:36px; padding-top:35px; }
+            .hero-image { min-height:330px; border-radius:100px 100px 15px 15px; }
+            .image-note { left:15px; }
+            .section-heading { display:block; }
+            .section-heading p { margin-top:18px; }
+            .menu-grid { grid-template-columns:repeat(2,1fr); }
+            footer .shell { display:block; }
+            footer p { margin-top:8px; }
+        }
+        @media (max-width:430px) { .menu-grid { grid-template-columns:1fr; } .actions { gap:17px; } }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <header>
+            <a class="brand" href="#top"><span class="brand-mark">✦</span> MeuKebab</a>
+            <nav aria-label="Navegação principal"><a href="#menu">O menu</a><a href="#sobre">A casa</a><a href="#contato">Contato</a></nav>
+            <a class="cart" href="#menu" aria-label="Itens no pedido">Pedido <span class="cart-count" id="cartCount">0</span></a>
+        </header>
+        <main id="top">
+            <section class="hero" aria-labelledby="hero-title">
+                <div>
+                    <div class="eyebrow">feito na hora, sempre</div>
+                    <h1 id="hero-title">O sabor que <em>gira</em> a cidade.</h1>
+                    <p class="hero-copy">Pão quentinho, carnes bem temperadas e molhos da casa. Kebab de verdade, servido sem pressa e com muita personalidade.</p>
+                    <div class="actions"><a class="button" href="#menu">Ver o menu</a><a class="text-link" href="#sobre">Conheça a casa</a></div>
+                </div>
+                <div class="hero-image" role="img" aria-label="Kebab artesanal servido em pão sírio"><div class="image-note"><strong>4.9 / 5</strong>na avaliação dos nossos clientes</div></div>
+            </section>
+            <section class="menu-section" id="menu" aria-labelledby="menu-title">
+                <div class="section-heading"><div><div class="eyebrow">escolha seu favorito</div><h2 id="menu-title">Direto do espeto.</h2></div><p>Ingredientes frescos, temperos honestos e combinações que fazem sentido.</p></div>
+                <div class="menu-grid">
+                    <article class="menu-card"><span class="tag">o clássico</span><h3>Doner tradicional</h3><p>Carne bovina, salada crocante, cebola roxa e molho de alho.</p><div class="card-bottom"><span class="price">R$ 29,90</span><button class="add" aria-label="Adicionar Doner tradicional" data-name="Doner tradicional">+</button></div></article>
+                    <article class="menu-card"><span class="tag">queridinho</span><h3>Frango defumado</h3><p>Frango marinado, tomate, picles e nosso molho picante.</p><div class="card-bottom"><span class="price">R$ 27,90</span><button class="add" aria-label="Adicionar Frango defumado" data-name="Frango defumado">+</button></div></article>
+                    <article class="menu-card"><span class="tag">sem carne</span><h3>Falafel verde</h3><p>Falafel de ervas, homus cremoso, pepino e tahine.</p><div class="card-bottom"><span class="price">R$ 25,90</span><button class="add" aria-label="Adicionar Falafel verde" data-name="Falafel verde">+</button></div></article>
+                    <article class="menu-card"><span class="tag">para dividir</span><h3>Batatas da casa</h3><p>Batatas rústicas, zaatar, feta e molho de alho assado.</p><div class="card-bottom"><span class="price">R$ 18,90</span><button class="add" aria-label="Adicionar Batatas da casa" data-name="Batatas da casa">+</button></div></article>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer id="contato"><div class="shell"><strong>MeuKebab</strong><p id="sobre">Rua das Flores, 127 · Terça a domingo, 18h às 23h</p></div></footer>
+    <div class="toast" id="toast" role="status"></div>
+    <script>
+        const cartCount = document.querySelector('#cartCount');
+        const toast = document.querySelector('#toast');
+        let items = 0;
+        document.querySelectorAll('.add').forEach((button) => {
+            button.addEventListener('click', () => {
+                items += 1;
+                cartCount.textContent = items;
+                toast.textContent = `${button.dataset.name} adicionado ao pedido`;
+                toast.classList.add('show');
+                window.setTimeout(() => toast.classList.remove('show'), 2200);
+            });
+        });
+    </script>
+</body>
+</html>
