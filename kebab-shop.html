@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeuKebab | Trancoso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F1E3;
+    --charcoal:#211B14;
+    --charcoal-2:#2C241B;
+    --brick:#B8402E;
+    --brick-dark:#94301F;
+    --mustard:#E3A008;
+    --smoke:#7A7166;
+    --line: rgba(33,27,20,0.12);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3, .logotype{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    letter-spacing:0.01em;
+    margin:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--charcoal);
+    border-bottom:1px solid rgba(247,241,227,0.08);
+  }
+  .header-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+  }
+  .logo-btn{
+    display:flex; align-items:center; gap:10px;
+    background:none; padding:0;
+  }
+  .logo-mark{
+    width:36px; height:36px; border-radius:50%;
+    background:var(--mustard);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--charcoal); font-family:'Anton',sans-serif; font-size:18px;
+    flex-shrink:0;
+  }
+  .logo-btn .logotype{
+    color:var(--cream); font-size:22px; line-height:1;
+  }
+  .logo-btn .logotype span{color:var(--mustard);}
+
+  .header-actions{ display:flex; align-items:center; gap:8px; }
+  .icon-btn{
+    background:transparent;
+    color:var(--cream);
+    display:flex; align-items:center; gap:8px;
+    padding:9px 14px;
+    border-radius:999px;
+    font-size:14px; font-weight:600;
+    transition:background .15s ease;
+    position:relative;
+  }
+  .icon-btn:hover{ background:rgba(247,241,227,0.1); }
+  .icon-btn.active{ background:var(--mustard); color:var(--charcoal); }
+  .cart-count{
+    position:absolute; top:-4px; right:-4px;
+    background:var(--brick); color:var(--cream);
+    font-size:11px; font-weight:700;
+    min-width:18px; height:18px; border-radius:999px;
+    display:flex; align-items:center; justify-content:center;
+    padding:0 4px;
+  }
+  .icon-btn svg{ width:19px; height:19px; }
+
+  /* ---------- Views ---------- */
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(227,160,8,0.25), transparent 45%),
+      linear-gradient(160deg, var(--charcoal) 0%, var(--charcoal-2) 60%, var(--brick-dark) 130%);
+    color:var(--cream);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(45deg, rgba(247,241,227,0.035) 0 2px, transparent 2px 26px);
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;
+    max-width:1180px; margin:0 auto;
+    padding:96px 24px 120px;
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap:40px; align-items:center;
+  }
+  .hero-eyebrow{
+    color:var(--mustard); font-weight:600; font-size:15px; margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(42px, 6vw, 76px);
+    line-height:0.98;
+    color:var(--cream);
+  }
+  .hero h1 em{ font-style:normal; color:var(--mustard); }
+  .hero p.lede{
+    max-width:46ch;
+    margin-top:20px;
+    font-size:17px;
+    line-height:1.6;
+    color:rgba(247,241,227,0.78);
+  }
+  .hero-ctas{ display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:14px 26px;
+    border-radius:999px;
+    font-weight:700; font-size:15px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{ background:var(--mustard); color:var(--charcoal); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(227,160,8,0.35); }
+  .btn-ghost{ background:transparent; color:var(--cream); border:1.5px solid rgba(247,241,227,0.35); }
+  .btn-ghost:hover{ border-color:var(--cream); }
+
+  .hero-plate{
+    position:relative;
+    aspect-ratio:1/1;
+    max-width:380px; margin-left:auto;
+    border-radius:50%;
+    background: conic-gradient(from 210deg, #C9822F, #8C4A24, #B8402E, #8C4A24, #C9822F);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.45), inset 0 0 0 14px rgba(247,241,227,0.9);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-plate .skewer{
+    width:74%; height:16px; background:var(--charcoal);
+    border-radius:999px; position:relative; transform:rotate(-8deg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .hero-plate .skewer::before, .hero-plate .skewer::after{
+    content:""; position:absolute; top:50%; height:34px; width:34px;
+    background:var(--mustard); border-radius:6px;
+    transform:translateY(-50%);
+  }
+  .hero-plate .skewer::before{ left:8%; background:#C9822F; }
+  .hero-plate .skewer::after{ left:24%; background:var(--brick); }
+
+  .scroll-hint{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    color:rgba(247,241,227,0.55); font-size:13px; display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .scroll-hint .dash{ width:1px; height:26px; background:rgba(247,241,227,0.4); }
+
+  /* ---------- Category nav ---------- */
+  .category-bar{
+    position:sticky; top:69px; z-index:40;
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+  }
+  .category-bar-inner{
+    max-width:1180px; margin:0 auto; padding:16px 24px;
+    display:flex; gap:10px; overflow-x:auto;
+  }
+  .pill{
+    flex-shrink:0;
+    padding:10px 18px;
+    border-radius:999px;
+    border:1.5px solid var(--line);
+    background:transparent;
+    color:var(--charcoal);
+    font-weight:600; font-size:14px;
+    transition:all .15s ease;
+  }
+  .pill.active, .pill:hover{
+    background:var(--charcoal); color:var(--cream); border-color:var(--charcoal);
+  }
+
+  /* ---------- Menu ---------- */
+  .menu-section{ max-width:1180px; margin:0 auto; padding:56px 24px 40px; }
+  .menu-section h2.group-title{
+    font-size:30px; margin-bottom:22px; padding-top:26px;
+    scroll-margin-top:150px;
+  }
+  .grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .card-media{
+    height:120px; border-radius:8px;
+    background: linear-gradient(135deg, var(--mustard), var(--brick));
+    opacity:0.9;
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,0.85); font-family:'Anton',sans-serif; font-size:15px;
+  }
+  .card h3{ font-size:18px; font-family:'Work Sans',sans-serif; font-weight:700; }
+  .card p.desc{ color:var(--smoke); font-size:14px; line-height:1.5; flex-grow:1; }
+  .card-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+  .price{ font-weight:700; font-size:17px; color:var(--brick-dark); }
+  .add-btn{
+    background:var(--charcoal); color:var(--cream);
+    padding:9px 16px; border-radius:8px; font-weight:600; font-size:13px;
+    transition:background .15s ease;
+  }
+  .add-btn:hover{ background:var(--brick); }
+  .add-btn.added{ background:#3E6B3E; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--charcoal); color:rgba(247,241,227,0.85);
+    margin-top:60px;
+  }
+  .footer-inner{
+    max-width:1180px; margin:0 auto; padding:56px 24px 30px;
+    display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px;
+  }
+  footer h4{ color:var(--cream); font-size:15px; margin-bottom:14px; font-weight:700; font-family:'Work Sans',sans-serif;}
+  footer p, footer li{ font-size:14px; line-height:1.8; color:rgba(247,241,227,0.65); }
+  footer ul{ list-style:none; padding:0; margin:0; }
+  .footer-bottom{
+    border-top:1px solid rgba(247,241,227,0.1);
+    padding:18px 24px; text-align:center; font-size:13px; color:rgba(247,241,227,0.45);
+  }
+
+  /* ---------- Cart view ---------- */
+  .page-wrap{ max-width:800px; margin:0 auto; padding:56px 24px 100px; min-height:60vh; }
+  .page-wrap h2{ font-size:36px; margin-bottom:6px; }
+  .page-sub{ color:var(--smoke); margin-bottom:36px; }
+  .cart-row{
+    display:flex; align-items:center; gap:16px;
+    padding:18px 0; border-bottom:1px solid var(--line);
+  }
+  .cart-row .cart-media{
+    width:56px; height:56px; border-radius:8px; flex-shrink:0;
+    background:linear-gradient(135deg, var(--mustard), var(--brick));
+  }
+  .cart-row .info{ flex-grow:1; }
+  .cart-row .info h4{ font-size:15px; font-weight:700; margin:0 0 4px; }
+  .cart-row .info span{ color:var(--smoke); font-size:13px; }
+  .qty-controls{ display:flex; align-items:center; gap:10px; }
+  .qty-controls button{
+    width:28px; height:28px; border-radius:6px; background:var(--cream);
+    border:1px solid var(--line); font-size:16px; font-weight:700; color:var(--charcoal);
+  }
+  .qty-controls button:hover{ background:var(--charcoal); color:var(--cream); }
+  .cart-row .row-total{ width:70px; text-align:right; font-weight:700; }
+  .remove-btn{ color:var(--brick); font-size:12px; font-weight:600; background:none; margin-left:6px; }
+
+  .empty-state{ text-align:center; padding:60px 0; color:var(--smoke); }
+  .empty-state svg{ width:52px; height:52px; margin-bottom:14px; opacity:0.4; }
+
+  .cart-summary{
+    margin-top:28px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px;
+  }
+  .summary-line{ display:flex; justify-content:space-between; font-size:14px; margin-bottom:10px; color:var(--smoke); }
+  .summary-line.total{ color:var(--charcoal); font-weight:700; font-size:18px; border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
+  .checkout-btn{
+    width:100%; margin-top:20px; padding:15px; border-radius:999px;
+    background:var(--brick); color:var(--cream); font-weight:700; font-size:15px;
+  }
+  .checkout-btn:hover{ background:var(--brick-dark); }
+
+  /* ---------- Info view ---------- */
+  .info-hero{ background:var(--charcoal-2); color:var(--cream); padding:64px 24px; }
+  .info-hero-inner{ max-width:800px; margin:0 auto; }
+  .info-hero h2{ font-size:44px; }
+  .info-hero p{ color:rgba(247,241,227,0.7); margin-top:14px; max-width:56ch; line-height:1.6; }
+  .info-grid{
+    max-width:800px; margin:0 auto; padding:48px 24px 90px;
+    display:grid; grid-template-columns:1fr 1fr; gap:30px;
+  }
+  .info-card{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px; }
+  .info-card h4{ font-size:16px; margin-bottom:12px; }
+  .hours-row{ display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--smoke); }
+  .hours-row span:last-child{ color:var(--charcoal); font-weight:600; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .hero-inner{ grid-template-columns:1fr; padding:64px 20px 90px; }
+    .hero-plate{ max-width:220px; margin:0; order:-1; }
+    .grid{ grid-template-columns:repeat(2,1fr); }
+    .footer-inner{ grid-template-columns:1fr; }
+    .info-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width: 520px){
+    .grid{ grid-template-columns:1fr; }
+    .logo-btn .logotype{ font-size:18px; }
+    .icon-btn span.label{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <button class="logo-btn" onclick="goHome()">
+    <span class="logo-mark"><img src="imgs\kebab.avif" alt="Meu Kebab"/></span>
+    </button>
+    <div class="header-actions">
+      <button class="icon-btn" id="info-btn" onclick="showView('info')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span class="label">Saiba mais</span>
+      </button>
+      <button class="icon-btn" id="cart-btn" onclick="showView('cart')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="label">Carrinho</span>
+        <span class="cart-count" id="cart-count" style="display:none;">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HOME VIEW ================= -->
+<main class="view active" id="view-home">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">You Know How We Do It!</div>
+        <h1>Meu Kebab</h1>
+        <p class="lede">Kebab feito com ingredientes frescos e selecionados, muito bom mesmo.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#menu">Ver menu</a>
+          <button class="btn btn-ghost" onclick="showView('info')">Horário &amp; localização</button>
+        </div>
+      </div>
+      <div class="hero-plate">
+        <div class="skewer"></div>
+      </div>
+    </div>
+    <div class="scroll-hint"><div class="dash"></div>menu abaixo</div>
+  </section>
+
+  <nav class="category-bar">
+    <div class="category-bar-inner" id="pill-bar">
+      <button class="pill active" data-target="cat-kebabs">Kebabs</button>
+      <button class="pill" data-target="cat-drinks">Bebidas</button>
+    </div>
+  </nav>
+
+  <section class="menu-section" id="menu">
+
+    <h2 class="group-title" id="cat-kebabs">Kebabs</h2>
+    <div class="grid" id="grid-kebabs"></div>
+
+    <h2 class="group-title" id="cat-drinks">Bebidas</h2>
+    <div class="grid" id="grid-drinks"></div>
+
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <h4>MeuKebab</h4>
+        <p>Meu kebab, o melhor kebab da cidade!</p>
+      </div>
+      <div>
+        <h4>Visite-nos</h4>
+        <ul>
+          <li>Rua Bom Jesus, Trancoso, Porto Seguro - BA</li>
+          <li>Aberto diariamente, 11:00–23:00</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Entre em contato</h4>
+        <ul>
+          <li>(21) 4002-8922</li>
+          <li>ola@meukebab.com</li>
+          <li>@meukebab</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 MeuKebab. All prices in BRL.</div>
+  </footer>
+
+</main>
+
+<!-- ================= CART VIEW ================= -->
+<section class="view" id="view-cart">
+  <div class="page-wrap">
+    <h2>Seu carrinho</h2>
+    <p class="page-sub">Revise seu pedido antes de finalizar.</p>
+    <div id="cart-list"></div>
+    <div id="cart-summary-wrap"></div>
+  </div>
+</section>
+
+<!-- ================= INFO VIEW ================= -->
+<section class="view" id="view-info">
+  <div class="info-hero">
+    <div class="info-hero-inner">
+      <h2>Saiba Mais</h2>
+      <p>Peça também pelo WhatsApp, estamos próximos ao quadrado de Trancoso. Só fechamos às quartas-feiras</p>
+    </div>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>Horários</h4>
+      <div class="hours-row"><span>Segunda – Terça</span><span>11:00 – 22:00</span></div>
+      <div class="hours-row"><span>Quarta</span><span>Fechado</span></div>
+      <div class="hours-row"><span>Quinta – Sexta</span><span>11:00 – 23:30</span></div>
+      <div class="hours-row"><span>Sábado – Domingo</span><span>12:00 – 21:00</span></div>
+    </div>
+    <div class="info-card">
+      <h4>Contato</h4>
+      <div class="hours-row"><span>Telefone</span><span>(21) 4002-8922</span></div>
+      <div class="hours-row"><span>Email</span><span>ola@meukebab.com</span></div>
+      <div class="hours-row"><span>Instagram</span><span>@meukebab</span></div>
+    </div>
+    <div class="info-card" style="grid-column: span 2;">
+      <h4>Endereço</h4>
+      <p style="color:var(--smoke); font-size:14px; line-height:1.7;">Rua Bom Jesus, Trancoso, Porto Seguro - BA. Estacionamento disponível após 19:00.</p>
+    </div>
+  </div>
+  <div class="page-wrap" style="text-align:center; padding:40px 24px;">
+    <a class="btn btn-primary" href="#menu" onclick="goHome()">Voltar ao menu</a>
+  </div>
+</section>
+
+<script>
+  // ---------- Menu data ----------
+  const menu = {
+    kebabs: [
+      { id:'k1', name:'KEBAB KAFTA', desc:'PAO FOLHA, KAFTA, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:26, image:'imgs\\shawerma-de-carne.jpg' },
+      { id:'k2', name:'KEBAB FRANGO', desc:'PAO FOLHA, FRANGO, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:22, image:'imgs\\Kebabdefrango.webp' },
+      { id:'k3', name:'KEBAB FALAFEL', desc:'PAO FOLHA, FALAFEL, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:24, image:'imgs\\falafel.jpg' },
+    ],
+    drinks: [
+      { id:'d1', name:'COCA COLA ZERO', desc: 'Refrigerante lata', price:7, image:'imgs/auau zero.jpg' },
+      { id:'d2', name:'COCA COLA NORMAL', desc: 'Refrigerante lata', price:7, image:'imgs/coca auau.jpg' },
+      { id:'d3', name:'NANA DO GUARANÁ DE JACAREPAGUÁ', desc: 'Refrigerante lata', price:7, image:'imgs/nana.jpg' },
+    ],
+  };
+
+  const cart = {}; // id -> { item, qty }
+
+  function renderMenu(){
+    for (const cat in menu){
+      const gridEl = document.getElementById('grid-' + cat);
+      gridEl.innerHTML = menu[cat].map(item => `
+        <div class="card">
+          <div class="card-media"><img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;"></div>
+          <h3>${item.name}</h3>
+          <p class="desc">${item.desc}</p>
+          <div class="card-footer">
+            <span class="price">R$ ${item.price.toFixed(2)}</span>
+            <button class="add-btn" id="btn-${item.id}" onclick="addToCart('${cat}','${item.id}')">Adicionar</button>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  function addToCart(cat, id){
+    const item = menu[cat].find(i => i.id === id);
+    if (!cart[id]) cart[id] = { item, qty: 0 };
+    cart[id].qty += 1;
+    updateCartUI();
+    const btn = document.getElementById('btn-' + id);
+    btn.textContent = 'Adicionado ✓';
+    btn.classList.add('added');
+    setTimeout(() => { btn.textContent = 'Adicionar'; btn.classList.remove('added'); }, 900);
+  }
+
+  function changeQty(id, delta){
+    if (!cart[id]) return;
+    cart[id].qty += delta;
+    if (cart[id].qty <= 0) delete cart[id];
+    updateCartUI();
+  }
+
+  function removeFromCart(id){
+    delete cart[id];
+    updateCartUI();
+  }
+
+  function cartCount(){
+    return Object.values(cart).reduce((sum, c) => sum + c.qty, 0);
+  }
+  function cartTotal(){
+    return Object.values(cart).reduce((sum, c) => sum + c.qty * c.item.price, 0);
+  }
+
+  function updateCartUI(){
+    const count = cartCount();
+    const badge = document.getElementById('cart-count');
+    if (count > 0){ badge.style.display='flex'; badge.textContent = count; }
+    else { badge.style.display='none'; }
+
+    const listEl = document.getElementById('cart-list');
+    const summaryEl = document.getElementById('cart-summary-wrap');
+
+    const entries = Object.entries(cart);
+    if (entries.length === 0){
+      listEl.innerHTML = `
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <p>Seu carrinho está vazio.</p>
+          <a class="btn btn-primary" style="margin-top:14px;" href="#menu" onclick="goHome()">Voltar ao menu</a>
+        </div>`;
+      summaryEl.innerHTML = '';
+      return;
+    }
+
+    listEl.innerHTML = entries.map(([id, c]) => `
+      <div class="cart-row">
+        <div class="cart-media"></div>
+        <div class="info">
+          <h4>${c.item.name}</h4>
+          <span>R$ ${c.item.price.toFixed(2)} each</span>
+        </div>
+        <div class="qty-controls">
+          <button onclick="changeQty('${id}', -1)">−</button>
+          <span>${c.qty}</span>
+          <button onclick="changeQty('${id}', 1)">+</button>
+        </div>
+        <div class="row-total">R$ ${(c.qty * c.item.price).toFixed(2)}</div>
+        <button class="remove-btn" onclick="removeFromCart('${id}')">remover</button>
+      </div>
+    `).join('');
+
+    const subtotal = cartTotal();
+    const delivery = 6;
+    const total = subtotal + delivery;
+    summaryEl.innerHTML = `
+      <div class="cart-summary">
+        <div class="summary-line"><span>Subtotal</span><span>R$ ${subtotal.toFixed(2)}</span></div>
+        <div class="summary-line"><span>Delivery</span><span>R$ ${delivery.toFixed(2)}</span></div>
+        <div class="summary-line total"><span>Total</span><span>R$ ${total.toFixed(2)}</span></div>
+        <button class="checkout-btn" onclick="checkout()">Finalizar pedido</button>
+      </div>`;
+  }
+
+  function checkout(){
+    if (cartCount() === 0) return;
+    alert('Pedido realizado! Seu kebab está em preparo.');
+    for (const id in cart) delete cart[id];
+    updateCartUI();
+    goHome();
+  }
+
+  // ---------- View switching ----------
+  function showView(name){
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.getElementById('cart-btn').classList.toggle('active', name === 'cart');
+    document.getElementById('info-btn').classList.toggle('active', name === 'info');
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+
+  function goHome(){
+    showView('home');
+  }
+
+  // ---------- Category pills ----------
+  document.getElementById('pill-bar').addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill');
+    if (!btn) return;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).scrollIntoView({ behavior:'smooth' });
+  });
+
+  renderMenu();
+  updateCartUI();
+</script>
+
+</body>
+</html>
