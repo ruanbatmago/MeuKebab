@@ -37,7 +37,6 @@
   button{font-family:inherit;cursor:pointer;border:none;}
   img{max-width:100%;display:block;}
 
-  /* ---------- Header ---------- */
   header{
     position:sticky; top:0; z-index:50;
     background:var(--charcoal);
@@ -87,11 +86,9 @@
   }
   .icon-btn svg{ width:19px; height:19px; }
 
-  /* ---------- Views ---------- */
   .view{ display:none; }
   .view.active{ display:block; }
 
-  /* ---------- Hero ---------- */
   .hero{
     position:relative;
     background:
@@ -169,7 +166,6 @@
   }
   .scroll-hint .dash{ width:1px; height:26px; background:rgba(247,241,227,0.4); }
 
-  /* ---------- Category nav ---------- */
   .category-bar{
     position:sticky; top:69px; z-index:40;
     background:var(--cream);
@@ -193,7 +189,6 @@
     background:var(--charcoal); color:var(--cream); border-color:var(--charcoal);
   }
 
-  /* ---------- Menu ---------- */
   .menu-section{ max-width:1180px; margin:0 auto; padding:56px 24px 40px; }
   .menu-section h2.group-title{
     font-size:30px; margin-bottom:22px; padding-top:26px;
@@ -228,7 +223,6 @@
   .add-btn:hover{ background:var(--brick); }
   .add-btn.added{ background:#3E6B3E; }
 
-  /* ---------- Footer ---------- */
   footer{
     background:var(--charcoal); color:rgba(247,241,227,0.85);
     margin-top:60px;
@@ -245,7 +239,6 @@
     padding:18px 24px; text-align:center; font-size:13px; color:rgba(247,241,227,0.45);
   }
 
-  /* ---------- Cart view ---------- */
   .page-wrap{ max-width:800px; margin:0 auto; padding:56px 24px 100px; min-height:60vh; }
   .page-wrap h2{ font-size:36px; margin-bottom:6px; }
   .page-sub{ color:var(--smoke); margin-bottom:36px; }
@@ -283,7 +276,6 @@
   }
   .checkout-btn:hover{ background:var(--brick-dark); }
 
-  /* ---------- Info view ---------- */
   .info-hero{ background:var(--charcoal-2); color:var(--cream); padding:64px 24px; }
   .info-hero-inner{ max-width:800px; margin:0 auto; }
   .info-hero h2{ font-size:44px; }
@@ -297,7 +289,6 @@
   .hours-row{ display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--smoke); }
   .hours-row span:last-child{ color:var(--charcoal); font-weight:600; }
 
-  /* ---------- Responsive ---------- */
   @media (max-width: 860px){
     .hero-inner{ grid-template-columns:1fr; padding:64px 20px 90px; }
     .hero-plate{ max-width:220px; margin:0; order:-1; }
@@ -333,7 +324,6 @@
   </div>
 </header>
 
-<!-- ================= HOME VIEW ================= -->
 <main class="view active" id="view-home">
 
   <section class="hero">
@@ -398,7 +388,6 @@
 
 </main>
 
-<!-- ================= CART VIEW ================= -->
 <section class="view" id="view-cart">
   <div class="page-wrap">
     <h2>Seu carrinho</h2>
@@ -408,7 +397,6 @@
   </div>
 </section>
 
-<!-- ================= INFO VIEW ================= -->
 <section class="view" id="view-info">
   <div class="info-hero">
     <div class="info-hero-inner">
@@ -441,7 +429,7 @@
 </section>
 
 <script>
-  // ---------- Menu data ----------
+
   const menu = {
     kebabs: [
       { id:'k1', name:'KEBAB KAFTA', desc:'PAO FOLHA, KAFTA, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:26, image:'imgs\\shawerma-de-carne.jpg' },
@@ -455,7 +443,7 @@
     ],
   };
 
-  const cart = {}; // id -> { item, qty }
+  const cart = {};
 
   function renderMenu(){
     for (const cat in menu){
@@ -527,10 +515,10 @@
 
     listEl.innerHTML = entries.map(([id, c]) => `
       <div class="cart-row">
-        <div class="cart-media"></div>
+        <div class="cart-media"><img src="${c.item.image}" alt="${c.item.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;"></div>
         <div class="info">
           <h4>${c.item.name}</h4>
-          <span>R$ ${c.item.price.toFixed(2)} each</span>
+          <span>R$ ${c.item.price.toFixed(2)} cada</span>
         </div>
         <div class="qty-controls">
           <button onclick="changeQty('${id}', -1)">−</button>
@@ -548,7 +536,7 @@
     summaryEl.innerHTML = `
       <div class="cart-summary">
         <div class="summary-line"><span>Subtotal</span><span>R$ ${subtotal.toFixed(2)}</span></div>
-        <div class="summary-line"><span>Delivery</span><span>R$ ${delivery.toFixed(2)}</span></div>
+        <div class="summary-line"><span>Entrega</span><span>R$ ${delivery.toFixed(2)}</span></div>
         <div class="summary-line total"><span>Total</span><span>R$ ${total.toFixed(2)}</span></div>
         <button class="checkout-btn" onclick="checkout()">Finalizar pedido</button>
       </div>`;
@@ -562,7 +550,6 @@
     goHome();
   }
 
-  // ---------- View switching ----------
   function showView(name){
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + name).classList.add('active');
@@ -575,7 +562,6 @@
     showView('home');
   }
 
-  // ---------- Category pills ----------
   document.getElementById('pill-bar').addEventListener('click', (e) => {
     const btn = e.target.closest('.pill');
     if (!btn) return;
