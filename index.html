@@ -1,578 +1,235 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MeuKebab | Trancoso</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MeuKebab | Culinária árabe</title>
+<meta name="description" content="MeuKebab: culinária árabe simples, saborosa e sem frescura.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rakkas&family=Lalezar&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --cream:#F7F1E3;
-    --charcoal:#211B14;
-    --charcoal-2:#2C241B;
-    --brick:#B8402E;
-    --brick-dark:#94301F;
-    --mustard:#E3A008;
-    --smoke:#7A7166;
-    --line: rgba(33,27,20,0.12);
-    --radius: 10px;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--cream);
-    color:var(--charcoal);
-    font-family:'Work Sans', sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3, .logotype{
-    font-family:'Anton', sans-serif;
-    font-weight:400;
-    letter-spacing:0.01em;
-    margin:0;
-  }
-  a{color:inherit;text-decoration:none;}
-  button{font-family:inherit;cursor:pointer;border:none;}
-  img{max-width:100%;display:block;}
+:root{
+  --bg:#FFFFFF; --soft:#FFF3E6; --ink:#2A1A0E; --card:#FFFFFF; --line:#2A1A0E;
+  --orange:#F57C00; --orange-d:#D9480F; --on-orange:#FFFFFF;
+  --f-title:'Rakkas','Lalezar',Georgia,serif;
+  --f-ar:'Lalezar','Rakkas',serif;
+  --f-body:'Nunito','Segoe UI',system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#1B1109;--soft:#2A1A0E;--ink:#FFF3E6;--card:#2A1A0E;--line:#FFF3E6}
+}
+:root[data-theme="dark"]{--bg:#1B1109;--soft:#2A1A0E;--ink:#FFF3E6;--card:#2A1A0E;--line:#FFF3E6}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--f-title);font-weight:400;line-height:1.05;margin:0}
+.ar{font-family:var(--f-ar)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
 
-  header{
-    position:sticky; top:0; z-index:50;
-    background:var(--charcoal);
-    border-bottom:1px solid rgba(247,241,227,0.08);
-  }
-  .header-inner{
-    max-width:1180px; margin:0 auto;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px 24px;
-  }
-  .logo-btn{
-    display:flex; align-items:center; gap:10px;
-    background:none; padding:0;
-  }
-  .logo-mark{
-    width:36px; height:36px; border-radius:50%;
-    background:var(--mustard);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--charcoal); font-family:'Anton',sans-serif; font-size:18px;
-    flex-shrink:0;
-  }
-  .logo-btn .logotype{
-    color:var(--cream); font-size:22px; line-height:1;
-  }
-  .logo-btn .logotype span{color:var(--mustard);}
+/* Botões */
+.btn{display:inline-block;font-family:var(--f-body);font-weight:800;font-size:1rem;padding:.85em 1.5em;border:3px solid var(--line);border-radius:999px;background:var(--orange);color:var(--on-orange);box-shadow:4px 4px 0 var(--line);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:7px 7px 0 var(--line)}
+.btn.alt{background:#FFFFFF;color:#2A1A0E}
 
-  .header-actions{ display:flex; align-items:center; gap:8px; }
-  .icon-btn{
-    background:transparent;
-    color:var(--cream);
-    display:flex; align-items:center; gap:8px;
-    padding:9px 14px;
-    border-radius:999px;
-    font-size:14px; font-weight:600;
-    transition:background .15s ease;
-    position:relative;
-  }
-  .icon-btn:hover{ background:rgba(247,241,227,0.1); }
-  .icon-btn.active{ background:var(--mustard); color:var(--charcoal); }
-  .cart-count{
-    position:absolute; top:-4px; right:-4px;
-    background:var(--brick); color:var(--cream);
-    font-size:11px; font-weight:700;
-    min-width:18px; height:18px; border-radius:999px;
-    display:flex; align-items:center; justify-content:center;
-    padding:0 4px;
-  }
-  .icon-btn svg{ width:19px; height:19px; }
+/* Topo */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:3px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 20px;max-width:1100px;margin:0 auto}
+.logo{font-family:var(--f-title);font-size:1.9rem;color:var(--orange-d);display:flex;align-items:baseline;gap:8px}
+.logo small{font-family:var(--f-ar);font-size:1.2rem;color:var(--ink)}
+nav{display:flex;gap:22px;font-weight:800}
+nav a:hover{color:var(--orange-d);text-decoration:underline wavy;text-underline-offset:6px}
+.bar .btn{padding:.5em 1.1em;font-size:.95rem;box-shadow:3px 3px 0 var(--line)}
+@media(max-width:720px){nav{display:none}}
 
-  .view{ display:none; }
-  .view.active{ display:block; }
+/* Hero */
+.hero{background:var(--orange-d);color:#FFFFFF;position:relative;overflow:hidden;border-bottom:3px solid var(--line);
+  background-image:radial-gradient(circle,rgba(255,255,255,.16) 0 5px,transparent 6px),radial-gradient(circle,rgba(255,255,255,.16) 0 5px,transparent 6px);
+  background-size:44px 44px;background-position:0 0,22px 22px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding-top:56px;padding-bottom:64px}
+.hello{font-size:2.2rem;opacity:.95;margin-bottom:6px}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);text-shadow:4px 4px 0 rgba(42,26,14,.35)}
+.hero p{font-size:1.15rem;max-width:30em;margin:18px 0 26px}
+.cta{display:flex;flex-wrap:wrap;gap:14px}
+.photo{position:relative;justify-self:center;width:min(100%,380px);aspect-ratio:1;background:#FFF3E6;border:4px solid #2A1A0E;border-radius:36% 64% 58% 42% / 42% 40% 60% 58%;display:grid;place-items:center;font-size:9rem;transform:rotate(3deg);box-shadow:10px 10px 0 #2A1A0E;animation:float 5s ease-in-out infinite}
+.photo span{filter:drop-shadow(4px 6px 0 rgba(42,26,14,.25))}
+.tape{position:absolute;top:-16px;left:50%;width:120px;height:34px;background:rgba(255,235,160,.9);border:2px dashed rgba(42,26,14,.35);transform:translateX(-50%) rotate(-6deg)}
+.badge{position:absolute;right:-14px;bottom:18px;width:110px;height:110px;border-radius:50%;background:#2A1A0E;color:#FFD9A8;display:grid;place-items:center;text-align:center;font-family:var(--f-title);font-size:1.15rem;line-height:1.05;transform:rotate(-12deg);animation:spin 12s linear infinite alternate}
+@keyframes float{50%{transform:rotate(-2deg) translateY(-10px)}}
+@keyframes spin{to{transform:rotate(8deg)}}
+@media(max-width:820px){.hero .wrap{grid-template-columns:1fr;padding-top:40px}.photo{font-size:7rem;width:min(80%,320px)}}
 
-  .hero{
-    position:relative;
-    background:
-      radial-gradient(circle at 85% 20%, rgba(227,160,8,0.25), transparent 45%),
-      linear-gradient(160deg, var(--charcoal) 0%, var(--charcoal-2) 60%, var(--brick-dark) 130%);
-    color:var(--cream);
-    overflow:hidden;
-  }
-  .hero::before{
-    content:"";
-    position:absolute; inset:0;
-    background-image: repeating-linear-gradient(45deg, rgba(247,241,227,0.035) 0 2px, transparent 2px 26px);
-    pointer-events:none;
-  }
-  .hero-inner{
-    position:relative;
-    max-width:1180px; margin:0 auto;
-    padding:96px 24px 120px;
-    display:grid; grid-template-columns: 1.1fr 0.9fr; gap:40px; align-items:center;
-  }
-  .hero-eyebrow{
-    color:var(--mustard); font-weight:600; font-size:15px; margin-bottom:14px;
-  }
-  .hero h1{
-    font-size:clamp(42px, 6vw, 76px);
-    line-height:0.98;
-    color:var(--cream);
-  }
-  .hero h1 em{ font-style:normal; color:var(--mustard); }
-  .hero p.lede{
-    max-width:46ch;
-    margin-top:20px;
-    font-size:17px;
-    line-height:1.6;
-    color:rgba(247,241,227,0.78);
-  }
-  .hero-ctas{ display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; }
-  .btn{
-    display:inline-flex; align-items:center; justify-content:center;
-    padding:14px 26px;
-    border-radius:999px;
-    font-weight:700; font-size:15px;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn-primary{ background:var(--mustard); color:var(--charcoal); }
-  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(227,160,8,0.35); }
-  .btn-ghost{ background:transparent; color:var(--cream); border:1.5px solid rgba(247,241,227,0.35); }
-  .btn-ghost:hover{ border-color:var(--cream); }
+/* Faixa em movimento */
+.ticker{background:#2A1A0E;color:#FFD9A8;overflow:hidden;white-space:nowrap;border-bottom:3px solid var(--line)}
+.ticker div{display:inline-block;padding:12px 0;font-family:var(--f-title);font-size:1.4rem;animation:run 28s linear infinite}
+.ticker span{margin:0 18px}
+@keyframes run{to{transform:translateX(-50%)}}
 
-  .hero-plate{
-    position:relative;
-    aspect-ratio:1/1;
-    max-width:380px; margin-left:auto;
-    border-radius:50%;
-    background: conic-gradient(from 210deg, #C9822F, #8C4A24, #B8402E, #8C4A24, #C9822F);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.45), inset 0 0 0 14px rgba(247,241,227,0.9);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .hero-plate .skewer{
-    width:74%; height:16px; background:var(--charcoal);
-    border-radius:999px; position:relative; transform:rotate(-8deg);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-  .hero-plate .skewer::before, .hero-plate .skewer::after{
-    content:""; position:absolute; top:50%; height:34px; width:34px;
-    background:var(--mustard); border-radius:6px;
-    transform:translateY(-50%);
-  }
-  .hero-plate .skewer::before{ left:8%; background:#C9822F; }
-  .hero-plate .skewer::after{ left:24%; background:var(--brick); }
+/* Seções */
+section{padding:64px 0}
+.title{text-align:center;margin-bottom:38px}
+.title h2{font-size:clamp(2rem,5vw,3.2rem)}
+.title .ar{display:block;font-size:1.6rem;color:var(--orange-d);margin-top:4px}
+.title p{max-width:34em;margin:10px auto 0}
 
-  .scroll-hint{
-    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-    color:rgba(247,241,227,0.55); font-size:13px; display:flex; flex-direction:column; align-items:center; gap:6px;
-  }
-  .scroll-hint .dash{ width:1px; height:26px; background:rgba(247,241,227,0.4); }
+/* Cards de pratos */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:26px}
+.card{position:relative;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:22px 20px 20px;box-shadow:6px 6px 0 var(--line);transition:transform .2s}
+.card:nth-child(odd){transform:rotate(-1.6deg)}
+.card:nth-child(even){transform:rotate(1.4deg)}
+.card:hover{transform:rotate(0) translateY(-6px)}
+.code{position:absolute;top:-14px;left:16px;background:var(--orange);color:#FFFFFF;font-family:var(--f-title);padding:2px 14px;border:3px solid var(--line);border-radius:999px;font-size:1.1rem}
+.pic{height:130px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:4.2rem;margin-bottom:14px;border:2px dashed var(--orange)}
+.card h3{font-size:1.5rem}
+.card .ar{color:var(--orange-d);font-size:1.25rem;display:block}
+.card p{margin:8px 0 12px;font-size:.95rem}
+.price{font-family:var(--f-title);font-size:1.5rem;color:var(--orange-d)}
 
-  .category-bar{
-    position:sticky; top:69px; z-index:40;
-    background:var(--cream);
-    border-bottom:1px solid var(--line);
-  }
-  .category-bar-inner{
-    max-width:1180px; margin:0 auto; padding:16px 24px;
-    display:flex; gap:10px; overflow-x:auto;
-  }
-  .pill{
-    flex-shrink:0;
-    padding:10px 18px;
-    border-radius:999px;
-    border:1.5px solid var(--line);
-    background:transparent;
-    color:var(--charcoal);
-    font-weight:600; font-size:14px;
-    transition:all .15s ease;
-  }
-  .pill.active, .pill:hover{
-    background:var(--charcoal); color:var(--cream); border-color:var(--charcoal);
-  }
+/* Passos */
+.steps{background:var(--soft);border-block:3px solid var(--line)}
+.step{text-align:center;padding:10px}
+.num{width:72px;height:72px;margin:0 auto 12px;border-radius:50%;background:var(--orange);color:#FFFFFF;border:3px solid var(--line);box-shadow:4px 4px 0 var(--line);display:grid;place-items:center;font-family:var(--f-title);font-size:2.2rem}
+.step h3{font-size:1.5rem;margin-bottom:6px}
 
-  .menu-section{ max-width:1180px; margin:0 auto; padding:56px 24px 40px; }
-  .menu-section h2.group-title{
-    font-size:30px; margin-bottom:22px; padding-top:26px;
-    scroll-margin-top:150px;
-  }
-  .grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
-  }
-  .card{
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:20px;
-    display:flex; flex-direction:column; gap:10px;
-  }
-  .card-media{
-    height:120px; border-radius:8px;
-    background: linear-gradient(135deg, var(--mustard), var(--brick));
-    opacity:0.9;
-    display:flex; align-items:center; justify-content:center;
-    color:rgba(255,255,255,0.85); font-family:'Anton',sans-serif; font-size:15px;
-  }
-  .card h3{ font-size:18px; font-family:'Work Sans',sans-serif; font-weight:700; }
-  .card p.desc{ color:var(--smoke); font-size:14px; line-height:1.5; flex-grow:1; }
-  .card-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
-  .price{ font-weight:700; font-size:17px; color:var(--brick-dark); }
-  .add-btn{
-    background:var(--charcoal); color:var(--cream);
-    padding:9px 16px; border-radius:8px; font-weight:600; font-size:13px;
-    transition:background .15s ease;
-  }
-  .add-btn:hover{ background:var(--brick); }
-  .add-btn.added{ background:#3E6B3E; }
+/* Sobre */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.about .big{background:var(--orange);border:3px solid var(--line);border-radius:28px;box-shadow:8px 8px 0 var(--line);aspect-ratio:4/3;display:grid;place-items:center;font-size:7rem;transform:rotate(-2deg)}
+.about h2{font-size:clamp(2rem,5vw,3rem);margin-bottom:12px}
+@media(max-width:780px){.about{grid-template-columns:1fr}}
 
-  footer{
-    background:var(--charcoal); color:rgba(247,241,227,0.85);
-    margin-top:60px;
-  }
-  .footer-inner{
-    max-width:1180px; margin:0 auto; padding:56px 24px 30px;
-    display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px;
-  }
-  footer h4{ color:var(--cream); font-size:15px; margin-bottom:14px; font-weight:700; font-family:'Work Sans',sans-serif;}
-  footer p, footer li{ font-size:14px; line-height:1.8; color:rgba(247,241,227,0.65); }
-  footer ul{ list-style:none; padding:0; margin:0; }
-  .footer-bottom{
-    border-top:1px solid rgba(247,241,227,0.1);
-    padding:18px 24px; text-align:center; font-size:13px; color:rgba(247,241,227,0.45);
-  }
+/* Chamada final e rodapé */
+.final{background:var(--orange-d);color:#FFFFFF;text-align:center;border-block:3px solid var(--line)}
+.final h2{font-size:clamp(2.2rem,6vw,3.6rem);margin-bottom:10px}
+.final p{margin:0 0 24px}
+footer{background:#2A1A0E;color:#FFD9A8;padding:40px 0 30px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
+footer .logo{color:#FFFFFF}
+footer .logo small{color:#FFD9A8}
+footer a:hover{text-decoration:underline}
+.copy{width:100%;font-size:.85rem;opacity:.7;border-top:1px solid rgba(255,217,168,.3);padding-top:16px}
 
-  .page-wrap{ max-width:800px; margin:0 auto; padding:56px 24px 100px; min-height:60vh; }
-  .page-wrap h2{ font-size:36px; margin-bottom:6px; }
-  .page-sub{ color:var(--smoke); margin-bottom:36px; }
-  .cart-row{
-    display:flex; align-items:center; gap:16px;
-    padding:18px 0; border-bottom:1px solid var(--line);
-  }
-  .cart-row .cart-media{
-    width:56px; height:56px; border-radius:8px; flex-shrink:0;
-    background:linear-gradient(135deg, var(--mustard), var(--brick));
-  }
-  .cart-row .info{ flex-grow:1; }
-  .cart-row .info h4{ font-size:15px; font-weight:700; margin:0 0 4px; }
-  .cart-row .info span{ color:var(--smoke); font-size:13px; }
-  .qty-controls{ display:flex; align-items:center; gap:10px; }
-  .qty-controls button{
-    width:28px; height:28px; border-radius:6px; background:var(--cream);
-    border:1px solid var(--line); font-size:16px; font-weight:700; color:var(--charcoal);
-  }
-  .qty-controls button:hover{ background:var(--charcoal); color:var(--cream); }
-  .cart-row .row-total{ width:70px; text-align:right; font-weight:700; }
-  .remove-btn{ color:var(--brick); font-size:12px; font-weight:600; background:none; margin-left:6px; }
-
-  .empty-state{ text-align:center; padding:60px 0; color:var(--smoke); }
-  .empty-state svg{ width:52px; height:52px; margin-bottom:14px; opacity:0.4; }
-
-  .cart-summary{
-    margin-top:28px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px;
-  }
-  .summary-line{ display:flex; justify-content:space-between; font-size:14px; margin-bottom:10px; color:var(--smoke); }
-  .summary-line.total{ color:var(--charcoal); font-weight:700; font-size:18px; border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
-  .checkout-btn{
-    width:100%; margin-top:20px; padding:15px; border-radius:999px;
-    background:var(--brick); color:var(--cream); font-weight:700; font-size:15px;
-  }
-  .checkout-btn:hover{ background:var(--brick-dark); }
-
-  .info-hero{ background:var(--charcoal-2); color:var(--cream); padding:64px 24px; }
-  .info-hero-inner{ max-width:800px; margin:0 auto; }
-  .info-hero h2{ font-size:44px; }
-  .info-hero p{ color:rgba(247,241,227,0.7); margin-top:14px; max-width:56ch; line-height:1.6; }
-  .info-grid{
-    max-width:800px; margin:0 auto; padding:48px 24px 90px;
-    display:grid; grid-template-columns:1fr 1fr; gap:30px;
-  }
-  .info-card{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px; }
-  .info-card h4{ font-size:16px; margin-bottom:12px; }
-  .hours-row{ display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--smoke); }
-  .hours-row span:last-child{ color:var(--charcoal); font-weight:600; }
-
-  @media (max-width: 860px){
-    .hero-inner{ grid-template-columns:1fr; padding:64px 20px 90px; }
-    .hero-plate{ max-width:220px; margin:0; order:-1; }
-    .grid{ grid-template-columns:repeat(2,1fr); }
-    .footer-inner{ grid-template-columns:1fr; }
-    .info-grid{ grid-template-columns:1fr; }
-  }
-  @media (max-width: 520px){
-    .grid{ grid-template-columns:1fr; }
-    .logo-btn .logotype{ font-size:18px; }
-    .icon-btn span.label{ display:none; }
-  }
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <button class="logo-btn" onclick="goHome()">
-    <span class="logo-mark"><img src="imgs\kebab.avif" alt="Meu Kebab"/></span>
-    </button>
-    <div class="header-actions">
-      <button class="icon-btn" id="info-btn" onclick="showView('info')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span class="label">Saiba mais</span>
-      </button>
-      <button class="icon-btn" id="cart-btn" onclick="showView('cart')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span class="label">Carrinho</span>
-        <span class="cart-count" id="cart-count" style="display:none;">0</span>
-      </button>
-    </div>
+  <div class="bar">
+    <a class="logo" href="#inicio">MeuKebab <small class="ar" lang="ar" dir="rtl">كباب</small></a>
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#pedido">Pedido</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="btn" href="#pedido">Fazer pedido</a>
   </div>
 </header>
 
-<main class="view active" id="view-home">
-
-  <section class="hero">
-    <div class="hero-inner">
+<main id="inicio">
+  <div class="hero">
+    <div class="wrap">
       <div>
-        <div class="hero-eyebrow">You Know How We Do It!</div>
-        <h1>Meu Kebab</h1>
-        <p class="lede">Kebab feito com ingredientes frescos e selecionados, muito bom mesmo.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#menu">Ver menu</a>
-          <button class="btn btn-ghost" onclick="showView('info')">Horário &amp; localização</button>
+        <div class="hello ar" lang="ar" dir="rtl">أهلاً وسهلاً</div>
+        <h1>Kebab de verdade, direto na sua mão.</h1>
+        <p>Sabor árabe sem frescura: carne no ponto, pão quentinho e aquele molho que você vai querer pedir de novo.</p>
+        <div class="cta">
+          <a class="btn alt" href="#pedido">Ver cardápio</a>
+          <a class="btn" href="#contato">Pedir agora</a>
         </div>
       </div>
-      <div class="hero-plate">
-        <div class="skewer"></div>
+      <div class="photo" aria-hidden="true">
+        <div class="tape"></div>
+        <span>🥙</span>
+        <div class="badge">sabor<br>árabe!</div>
       </div>
     </div>
-    <div class="scroll-hint"><div class="dash"></div>menu abaixo</div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div>
+      <span>KEBAB</span>✶<span>ESFIHA</span>✶<span>FALAFEL</span>✶<span>HUMMUS</span>✶<span>KIBE</span>✶<span>COMBOS</span>✶
+      <span>KEBAB</span>✶<span>ESFIHA</span>✶<span>FALAFEL</span>✶<span>HUMMUS</span>✶<span>KIBE</span>✶<span>COMBOS</span>✶
+      <span>KEBAB</span>✶<span>ESFIHA</span>✶<span>FALAFEL</span>✶<span>HUMMUS</span>✶<span>KIBE</span>✶<span>COMBOS</span>✶
+      <span>KEBAB</span>✶<span>ESFIHA</span>✶<span>FALAFEL</span>✶<span>HUMMUS</span>✶<span>KIBE</span>✶<span>COMBOS</span>✶
+    </div>
+  </div>
+
+  <section id="pedido">
+    <div class="wrap">
+      <div class="title">
+        <h2>Os queridinhos da casa</h2>
+        <span class="ar" lang="ar" dir="rtl">الأطباق المفضلة</span>
+        <p>Receitas simples e cheias de sabor. (Nomes, fotos e preços são só exemplos por enquanto.)</p>
+      </div>
+      <div class="grid">
+        <article class="card"><div class="code">K1</div><div class="pic">🥙</div>
+          <h3>Kebab de frango</h3><span class="ar" lang="ar" dir="rtl">كباب دجاج</span>
+          <p>Frango temperado, salada fresca e molho da casa no pão árabe.</p><div class="price">R$ 00,00</div></article>
+        <article class="card"><div class="code">K2</div><div class="pic">🍢</div>
+          <h3>Kebab misto</h3><span class="ar" lang="ar" dir="rtl">كباب مشكل</span>
+          <p>Carne e frango no espeto, grelhados na hora.</p><div class="price">R$ 00,00</div></article>
+        <article class="card"><div class="code">E1</div><div class="pic">🫓</div>
+          <h3>Esfiha de carne</h3><span class="ar" lang="ar" dir="rtl">صفيحة</span>
+          <p>Massa macia, recheio temperado e limão para espremer.</p><div class="price">R$ 00,00</div></article>
+        <article class="card"><div class="code">F1</div><div class="pic">🧆</div>
+          <h3>Falafel</h3><span class="ar" lang="ar" dir="rtl">فلافل</span>
+          <p>Crocante por fora, macio por dentro, com molho de tahine.</p><div class="price">R$ 00,00</div></article>
+      </div>
+    </div>
   </section>
 
-  <nav class="category-bar">
-    <div class="category-bar-inner" id="pill-bar">
-      <button class="pill active" data-target="cat-kebabs">Kebabs</button>
-      <button class="pill" data-target="cat-drinks">Bebidas</button>
+  <section class="steps">
+    <div class="wrap">
+      <div class="title"><h2>Pedir é fácil</h2></div>
+      <div class="grid">
+        <div class="step"><div class="num">1</div><h3>Escolha</h3><p>Monte seu pedido no cardápio.</p></div>
+        <div class="step"><div class="num">2</div><h3>Envie</h3><p>Mandamos o resumo pelo WhatsApp.</p></div>
+        <div class="step"><div class="num">3</div><h3>Aproveite</h3><p>Retire ou receba quentinho.</p></div>
+      </div>
     </div>
-  </nav>
-
-  <section class="menu-section" id="menu">
-
-    <h2 class="group-title" id="cat-kebabs">Kebabs</h2>
-    <div class="grid" id="grid-kebabs"></div>
-
-    <h2 class="group-title" id="cat-drinks">Bebidas</h2>
-    <div class="grid" id="grid-drinks"></div>
-
   </section>
 
-  <footer>
-    <div class="footer-inner">
+  <section>
+    <div class="wrap about">
+      <div class="big" aria-hidden="true">🧅🌶️</div>
       <div>
-        <h4>MeuKebab</h4>
-        <p>Meu kebab, o melhor kebab da cidade!</p>
-      </div>
-      <div>
-        <h4>Visite-nos</h4>
-        <ul>
-          <li>Rua Bom Jesus, Trancoso, Porto Seguro - BA</li>
-          <li>Aberto diariamente, 11:00–23:00</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Entre em contato</h4>
-        <ul>
-          <li>(21) 4002-8922</li>
-          <li>ola@meukebab.com</li>
-          <li>@meukebab</li>
-        </ul>
+        <h2>Feito com tempero e carinho</h2>
+        <p>Aqui vai a história do MeuKebab: quem faz, de onde vêm as receitas e por que o sabor é diferente. Texto de exemplo para você trocar depois.</p>
+        <a class="btn" href="#contato">Conheça a gente</a>
       </div>
     </div>
-    <div class="footer-bottom">© 2026 MeuKebab. All prices in BRL.</div>
-  </footer>
+  </section>
 
+  <section class="final" id="contato">
+    <div class="wrap">
+      <h2>Bateu a fome?</h2>
+      <p>Faça seu pedido agora e receba rapidinho.</p>
+      <a class="btn alt" href="#pedido">Fazer pedido</a>
+    </div>
+  </section>
 </main>
 
-<section class="view" id="view-cart">
-  <div class="page-wrap">
-    <h2>Seu carrinho</h2>
-    <p class="page-sub">Revise seu pedido antes de finalizar.</p>
-    <div id="cart-list"></div>
-    <div id="cart-summary-wrap"></div>
-  </div>
-</section>
-
-<section class="view" id="view-info">
-  <div class="info-hero">
-    <div class="info-hero-inner">
-      <h2>Saiba Mais</h2>
-      <p>Peça também pelo WhatsApp, estamos próximos ao quadrado de Trancoso. Só fechamos às quartas-feiras</p>
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo">MeuKebab <small class="ar" lang="ar" dir="rtl">كباب</small></div>
+      <p>Culinária árabe simples e saborosa.</p>
     </div>
-  </div>
-  <div class="info-grid">
-    <div class="info-card">
-      <h4>Horários</h4>
-      <div class="hours-row"><span>Segunda – Terça</span><span>11:00 – 22:00</span></div>
-      <div class="hours-row"><span>Quarta</span><span>Fechado</span></div>
-      <div class="hours-row"><span>Quinta – Sexta</span><span>11:00 – 23:30</span></div>
-      <div class="hours-row"><span>Sábado – Domingo</span><span>12:00 – 21:00</span></div>
+    <div>
+      <strong>Contato</strong><br>
+      Endereço da loja<br>
+      WhatsApp: (00) 00000-0000
     </div>
-    <div class="info-card">
-      <h4>Contato</h4>
-      <div class="hours-row"><span>Telefone</span><span>(21) 4002-8922</span></div>
-      <div class="hours-row"><span>Email</span><span>ola@meukebab.com</span></div>
-      <div class="hours-row"><span>Instagram</span><span>@meukebab</span></div>
+    <div>
+      <strong>Horário</strong><br>
+      Ter a Dom: 11h às 22h
     </div>
-    <div class="info-card" style="grid-column: span 2;">
-      <h4>Endereço</h4>
-      <p style="color:var(--smoke); font-size:14px; line-height:1.7;">Rua Bom Jesus, Trancoso, Porto Seguro - BA. Estacionamento disponível após 19:00.</p>
-    </div>
+    <div class="copy">© 2026 MeuKebab. Todos os direitos reservados.</div>
   </div>
-  <div class="page-wrap" style="text-align:center; padding:40px 24px;">
-    <a class="btn btn-primary" href="#menu" onclick="goHome()">Voltar ao menu</a>
-  </div>
-</section>
-
-<script>
-
-  const menu = {
-    kebabs: [
-      { id:'k1', name:'KEBAB KAFTA', desc:'PAO FOLHA, KAFTA, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:26, image:'imgs\\shawerma-de-carne.jpg' },
-      { id:'k2', name:'KEBAB FRANGO', desc:'PAO FOLHA, FRANGO, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:22, image:'imgs\\Kebabdefrango.webp' },
-      { id:'k3', name:'KEBAB FALAFEL', desc:'PAO FOLHA, FALAFEL, MOLHO DE PAPRICA, CEBOLA ROXA, TOMATE, ALFACE FRISEE, PIMENTA.', price:24, image:'imgs\\falafel.jpg' },
-    ],
-    drinks: [
-      { id:'d1', name:'COCA COLA ZERO', desc: 'Refrigerante lata', price:7, image:'imgs/auau zero.jpg' },
-      { id:'d2', name:'COCA COLA NORMAL', desc: 'Refrigerante lata', price:7, image:'imgs/coca auau.jpg' },
-      { id:'d3', name:'NANA DO GUARANÁ DE JACAREPAGUÁ', desc: 'Refrigerante lata', price:7, image:'imgs/nana.jpg' },
-    ],
-  };
-
-  const cart = {};
-
-  function renderMenu(){
-    for (const cat in menu){
-      const gridEl = document.getElementById('grid-' + cat);
-      gridEl.innerHTML = menu[cat].map(item => `
-        <div class="card">
-          <div class="card-media"><img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;"></div>
-          <h3>${item.name}</h3>
-          <p class="desc">${item.desc}</p>
-          <div class="card-footer">
-            <span class="price">R$ ${item.price.toFixed(2)}</span>
-            <button class="add-btn" id="btn-${item.id}" onclick="addToCart('${cat}','${item.id}')">Adicionar</button>
-          </div>
-        </div>
-      `).join('');
-    }
-  }
-
-  function addToCart(cat, id){
-    const item = menu[cat].find(i => i.id === id);
-    if (!cart[id]) cart[id] = { item, qty: 0 };
-    cart[id].qty += 1;
-    updateCartUI();
-    const btn = document.getElementById('btn-' + id);
-    btn.textContent = 'Adicionado ✓';
-    btn.classList.add('added');
-    setTimeout(() => { btn.textContent = 'Adicionar'; btn.classList.remove('added'); }, 900);
-  }
-
-  function changeQty(id, delta){
-    if (!cart[id]) return;
-    cart[id].qty += delta;
-    if (cart[id].qty <= 0) delete cart[id];
-    updateCartUI();
-  }
-
-  function removeFromCart(id){
-    delete cart[id];
-    updateCartUI();
-  }
-
-  function cartCount(){
-    return Object.values(cart).reduce((sum, c) => sum + c.qty, 0);
-  }
-  function cartTotal(){
-    return Object.values(cart).reduce((sum, c) => sum + c.qty * c.item.price, 0);
-  }
-
-  function updateCartUI(){
-    const count = cartCount();
-    const badge = document.getElementById('cart-count');
-    if (count > 0){ badge.style.display='flex'; badge.textContent = count; }
-    else { badge.style.display='none'; }
-
-    const listEl = document.getElementById('cart-list');
-    const summaryEl = document.getElementById('cart-summary-wrap');
-
-    const entries = Object.entries(cart);
-    if (entries.length === 0){
-      listEl.innerHTML = `
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          <p>Seu carrinho está vazio.</p>
-          <a class="btn btn-primary" style="margin-top:14px;" href="#menu" onclick="goHome()">Voltar ao menu</a>
-        </div>`;
-      summaryEl.innerHTML = '';
-      return;
-    }
-
-    listEl.innerHTML = entries.map(([id, c]) => `
-      <div class="cart-row">
-        <div class="cart-media"><img src="${c.item.image}" alt="${c.item.name}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;"></div>
-        <div class="info">
-          <h4>${c.item.name}</h4>
-          <span>R$ ${c.item.price.toFixed(2)} cada</span>
-        </div>
-        <div class="qty-controls">
-          <button onclick="changeQty('${id}', -1)">−</button>
-          <span>${c.qty}</span>
-          <button onclick="changeQty('${id}', 1)">+</button>
-        </div>
-        <div class="row-total">R$ ${(c.qty * c.item.price).toFixed(2)}</div>
-        <button class="remove-btn" onclick="removeFromCart('${id}')">remover</button>
-      </div>
-    `).join('');
-
-    const subtotal = cartTotal();
-    const delivery = 6;
-    const total = subtotal + delivery;
-    summaryEl.innerHTML = `
-      <div class="cart-summary">
-        <div class="summary-line"><span>Subtotal</span><span>R$ ${subtotal.toFixed(2)}</span></div>
-        <div class="summary-line"><span>Entrega</span><span>R$ ${delivery.toFixed(2)}</span></div>
-        <div class="summary-line total"><span>Total</span><span>R$ ${total.toFixed(2)}</span></div>
-        <button class="checkout-btn" onclick="checkout()">Finalizar pedido</button>
-      </div>`;
-  }
-
-  function checkout(){
-    if (cartCount() === 0) return;
-    alert('Pedido realizado! Seu kebab está em preparo.');
-    for (const id in cart) delete cart[id];
-    updateCartUI();
-    goHome();
-  }
-
-  function showView(name){
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById('view-' + name).classList.add('active');
-    document.getElementById('cart-btn').classList.toggle('active', name === 'cart');
-    document.getElementById('info-btn').classList.toggle('active', name === 'info');
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
-  }
-
-  function goHome(){
-    showView('home');
-  }
-
-  document.getElementById('pill-bar').addEventListener('click', (e) => {
-    const btn = e.target.closest('.pill');
-    if (!btn) return;
-    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.target).scrollIntoView({ behavior:'smooth' });
-  });
-
-  renderMenu();
-  updateCartUI();
-</script>
+</footer>
 
 </body>
 </html>
